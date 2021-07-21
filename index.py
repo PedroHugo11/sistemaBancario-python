@@ -11,7 +11,7 @@ play_in_proccess = True
 while play_in_proccess:
     print ("")
     print ("1 - Menu - Contas Clientes")
-    print ("2 - Menu - Transferências")
+    print ("2 - Menu - Operações")
     print ("3 - Sair")
 
     menuop = input("Digite o número da opçao desejada: ")
@@ -161,7 +161,7 @@ while play_in_proccess:
               saque = float(saque)
               valor = Contas['saldo'][pos]
 
-              if valor > saque:
+              if valor >= saque:
                 valor = valor - saque
                 Contas['saldo'][pos] = valor
               else:
@@ -171,6 +171,38 @@ while play_in_proccess:
               print("Conta nao existe!!")
           
           elif (opmenu == '3') :
-            print ("Em desenvolvimento")
+            conta_origem = input("\nInforme o codigo da conta de origem da qual deseja realizar a operação: ")
+
+            conta_destino = input("\nInforme o codigo da conta destino para qual deseja realizar a operação: ")
+
+            consultar_conta_origem = conta_origem in Contas['cod']
+            consultar_conta_destino = conta_destino in Contas['cod']
+
+            if (consultar_conta_origem == True) and (consultar_conta_destino == True):
+
+              pos = Contas['cod'].index(conta_origem)
+              pos_conta_destino = Contas['cod'].index(conta_destino)
+              transferencia = input ("\nInforme o valor da transferencia: ")
+              transferencia = float(transferencia)
+              valor = Contas['saldo'][pos]
+              valor_conta_destino = Contas['saldo'][pos_conta_destino]
+
+              if valor >= transferencia:
+                valor = valor - transferencia
+                valor_conta_destino = valor_conta_destino + transferencia
+                Contas['saldo'][pos] = valor
+                Contas['saldo'][pos_conta_destino] = valor_conta_destino
+
+                Trans['cod'].append(conta_origem +'_'+ conta_destino)
+                Trans['origem'].append(conta_origem)
+                Trans['destino'].append(conta_destino)
+                Trans['valor'].append(transferencia)
+            
+              else:
+                print("Saldo insuficiente!!")
+            
+            else :
+                print("Conta nao existe!!")
+
 
 print ("Finalizando...")
