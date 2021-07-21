@@ -1,7 +1,6 @@
 # Pedro Hugo e Cinthia Katiane
 # Sistema Bancário - Python 
 
-
 Contas = {'cod' : [], 'saldo' : []}
 Trans = {'cod' : [], 'origem' : [], 'destino' : [], 'valor' : []}
 Clientes = {'cod' : [], 'nome' : [], 'cc' : []}
@@ -119,8 +118,59 @@ while play_in_proccess:
 
     elif (menuop == '2') :
         
-        print("teste")
+        play_in_proccess2 = True
+        while play_in_proccess2:
 
+          print("")
+          print("1 - Deposito")
+          print("2 - Saque")
+          print("3 - Transferencia")
+          print("4 - Voltar")
+
+          opmenu = input("\nDigite o numero da opçao desejada: ")        
+
+          if (opmenu == '4') :
+            play_in_proccess2 = False
+
+          elif (opmenu == '1') :
+
+            consultar = input ("\nInforme o código da conta em que deseja realizar o deposito: ")
+            consultarV = consultar in Contas['cod']
             
+            if consultarV == True:
+              pos = Contas['cod'].index(consultar)
+              deposito = input ("\nInforme o valor do deposito: ")
+              deposito = float(deposito)
+              valor = Contas['saldo'][pos]
+              valor = valor + deposito
+              Contas['saldo'][pos] = valor
+            else:
+              print("Conta nao existe!!")
+
+
+            # Lista de trans
+
+          elif (opmenu == '2') :
+            consultar = input ("\nInforme o codigo da conta em que deseja realizar o saque: ")
+            consultarV = consultar in Contas['cod']
+            
+            if consultarV == True:
+
+              pos = Contas['cod'].index(consultar)
+              saque = input ("\nInforme o valor do saque: ")
+              saque = float(saque)
+              valor = Contas['saldo'][pos]
+
+              if valor > saque:
+                valor = valor - saque
+                Contas['saldo'][pos] = valor
+              else:
+                print("Saldo insuficiente!!")
+
+            else:
+              print("Conta nao existe!!")
+          
+          elif (opmenu == '3') :
+            print ("Em desenvolvimento")
 
 print ("Finalizando...")
