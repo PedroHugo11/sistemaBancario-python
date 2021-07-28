@@ -2,6 +2,7 @@
 # Sistema Bancário - Python 
 
 from conta import Conta
+from poupanca import ContaPoupanca
 
 Contas = []
 play_in_proccess = True
@@ -39,12 +40,22 @@ while play_in_proccess:
 
         ## 1 - Inserir nova conta
         if (menuCliente == '1') :
+          
+          print("1 - Conta corrente")
+          print("2 - Conta poupança")
+          tipo = input ("Informe o tipo da conta: ") 
           cod = input ("Informe o numero da conta: ") 
           conta = buscar_conta(cod)
-          if conta:
-            print ("Essa conta já existe, tente novamente!")
-          else:
-            Contas.append(Conta(cod))
+          if tipo == '1':
+            if conta:
+              print ("Essa conta já existe, tente novamente!")
+            else:
+              Contas.append(Conta(cod))
+          if tipo == '2':
+            if conta:
+              print ("Essa conta já existe, tente novamente!")
+            else:
+              Contas.append(ContaPoupanca(cod))
 
         ## 2 - Consultar saldo
         elif (menuCliente == '2') :
@@ -63,11 +74,12 @@ while play_in_proccess:
           print("1 - Deposito")
           print("2 - Saque")
           print("3 - Transferencia")
-          print("4 - Voltar")
+          print("4 - Render Juros")
+          print("5 - Voltar")
 
           opmenu = input("\nDigite o numero da opçao desejada: ")        
 
-          if (opmenu == '4') :
+          if (opmenu == '5') :
             play_in_proccess2 = False
 
           elif (opmenu == '1') :
@@ -113,5 +125,15 @@ while play_in_proccess:
                 print("Saldo insuficiente!!")
             else :
                 print("Conta nao existe!!")
+
+          elif (opmenu == '4') :
+            cod = input("\nInforme o codigo da conta em que deseja calcular o rendimento: ")
+            conta = buscar_conta(cod)
+            if conta and isinstance(conta, ContaPoupanca):
+              taxa = input("\nInforme a taxa de rendimento: ")  
+              taxa = float(taxa)
+              conta.renderJuros(taxa)
+            else :
+                print("Não é possivel realizar essa operação")
 
 print ("Finalizando...")
