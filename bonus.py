@@ -1,9 +1,8 @@
 from conta import Conta
-from bonus import ContaBonus
 
 class ContaBonus(Conta):
-    def _init_(self,codigo):
-        Conta._init_(self, codigo)
+    def __init__(self,codigo):
+        Conta.__init__(self, codigo)
         self.bonus = 10
 
     def depositar(self,valor):

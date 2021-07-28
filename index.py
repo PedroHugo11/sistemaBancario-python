@@ -2,6 +2,7 @@
 # Sistema Bancário - Python 
 
 from conta import Conta
+from bonus import ContaBonus
 
 Contas = []
 play_in_proccess = True
