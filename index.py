@@ -1,16 +1,19 @@
 # Pedro Hugo e Cinthia Katiane
 # Sistema Bancário - Python 
 
-Contas = {'cod' : [], 'saldo' : []}
-Trans = {'cod' : [], 'origem' : [], 'destino' : [], 'valor' : []}
-Clientes = {'cod' : [], 'nome' : [], 'cc' : []}
-numClientes = 0
+from conta import Conta
 
+Contas = []
 play_in_proccess = True
+
+def buscar_conta(codigo):
+  for conta in Contas:
+    if conta.codigo == codigo:
+      return conta
 
 while play_in_proccess:
     print ("")
-    print ("1 - Menu - Contas Clientes")
+    print ("1 - Menu - Conta")
     print ("2 - Menu - Operações")
     print ("3 - Sair")
 
@@ -19,108 +22,43 @@ while play_in_proccess:
     if (menuop == '3') :
       play_in_proccess = False
         
+
     elif (menuop == '1') :
       play_in_proccess1 = True
       while play_in_proccess1:
         print("")
-        print("1 - Inserir novo cliente")
-        print("2 - Consultar conta de um cliente")
-        print("3 - Atualizar cadastro de um cliente")
-        print("4 - Remover um clientes")
-        print("5 - Imprimir lista de clientes")
-        print("6 - Voltar")
+        print("1 - Cadastrar conta")
+        print("2 - Consultar saldo")
+        print("3 - Voltar")
 
         menuCliente = input ("\nDigite o numero da opçao desejada: ")
-
-        if (menuCliente == '6') :
+        
+        ## 3 - Voltar
+        if (menuCliente == '3') :
             play_in_proccess1 = False
 
-        ## 1 - Inserir novo cliente
+        ## 1 - Inserir nova conta
         if (menuCliente == '1') :
-  
-          cod = input ("\nInforme o codigo do cliente: ")
-          nome = input ("Informe o nome do cliente: ")
-          cc = input ("Informe o numero da conta corrente do cliente: ") 
+          cod = input ("Informe o numero da conta: ") 
+          conta = buscar_conta(cod)
+          if conta:
+            print ("Essa conta já existe, tente novamente!")
+          else:
+            Contas.append(Conta(cod))
 
-          #verificação de contas com mesmo código // cinthia
-
-          Clientes['cod'].append(cod)
-          Clientes['nome'].append(nome)
-          Clientes['cc'].append(cc)
-          Contas['cod'].append(cc)
-          Contas['saldo'].append(0.0)
-
-          numClientes = numClientes + 1
-
-
-        ## 2 - Consultar dados de um cliente 
+        ## 2 - Consultar saldo
         elif (menuCliente == '2') :
-
-          consultar = input ("\nInforme o codigo do cliente: ")
-          consultarV = consultar in Clientes['cod']
-          
-          if consultarV == True:  
-            pos = Clientes['cod'].index(consultar)
-            print("Codigo \t Nome \t Conta")
-            print("{0} \t {1} \t {2}".format(Clientes['cod'][pos],Clientes['nome'][pos],Clientes['cc'][pos],Contas['saldo'][pos]))
-
+          consultar = input ("\nInforme o numero da conta: ")
+          conta = buscar_conta(consultar)
+          if conta :
+            print ("Saldo: ", conta.saldo)
           else:
             print("Codigo invalido!!!")
-
-        ## 3 - Atualizar cadastro de um cliente 
-        elif (menuCliente == '3') :
-            
-          consultar = input ("\nInforme o codigo do cliente: ")
-          consultarV = consultar in Clientes['cod']
-            
-          if consultarV == True:
-                
-            newnome = input ("Informe o novo nome do cliente: ")
-            
-            pos = Clientes['cod'].index(consultar)
-            
-            Clientes['nome'][pos] = newnome
-
-            print("\nDados atualizados!!!\n")
-
-          else:
-            print("Codigo invalido!!!")
-
-        ## 4 - Remover um clientes 
-        elif (menuCliente == '4') :
-            
-          consultar = input ("\nInforme o codigo do cliente: ")
-          consultarV = consultar in Clientes['cod']
-          
-          if consultarV == True:
-              
-            pos = Clientes['cod'].index(consultar)
-            Clientes['cod'].pop(pos)
-            Clientes['nome'].pop(pos)
-            Clientes['cc'].pop(pos)
-            Contas['cod'].pop(pos)
-            Contas['saldo'].pop(pos)
-
-            numClientes = numClientes - 1
-            print("Removido com sucesso")
-
-          else:
-            print("Codigo invalido!!!")
-
-        ## 5 - Imprimir lista de clientes 
-        elif (menuCliente == '5') : 
-          print("Codigo \t Nome \t \t Conta \t Saldo")
-          print()
-          
-          for i in range(numClientes):              
-              
-              print("{0} \t {1} \t {2} \t {3}".format(Clientes['cod'][i],Clientes['nome'][i],Clientes['cc'][i], Contas['saldo'][i]))
 
     elif (menuop == '2') :
         
         play_in_proccess2 = True
         while play_in_proccess2:
-
           print("")
           print("1 - Deposito")
           print("2 - Saque")
@@ -135,74 +73,45 @@ while play_in_proccess:
           elif (opmenu == '1') :
 
             consultar = input ("\nInforme o código da conta em que deseja realizar o deposito: ")
-            consultarV = consultar in Contas['cod']
-            
-            if consultarV == True:
-              pos = Contas['cod'].index(consultar)
+            conta = buscar_conta(consultar)
+          
+            if conta:
               deposito = input ("\nInforme o valor do deposito: ")
               deposito = float(deposito)
-              valor = Contas['saldo'][pos]
-              valor = valor + deposito
-              Contas['saldo'][pos] = valor
+              conta.depositar(deposito)
+              print("Deposito efetuado com sucesso")
             else:
               print("Conta nao existe!!")
-
-
-            # Lista de trans
 
           elif (opmenu == '2') :
             consultar = input ("\nInforme o codigo da conta em que deseja realizar o saque: ")
-            consultarV = consultar in Contas['cod']
-            
-            if consultarV == True:
+            conta = buscar_conta(consultar)
 
-              pos = Contas['cod'].index(consultar)
-              saque = input ("\nInforme o valor do saque: ")
+            if conta:
+              saque = input ("\nInforme o valor do deposito: ")
               saque = float(saque)
-              valor = Contas['saldo'][pos]
-
-              if valor >= saque:
-                valor = valor - saque
-                Contas['saldo'][pos] = valor
-              else:
-                print("Saldo insuficiente!!")
-
+              conta.sacar(saque)
+              print("Saque efetuado com sucesso")
             else:
               print("Conta nao existe!!")
-          
+
           elif (opmenu == '3') :
             conta_origem = input("\nInforme o codigo da conta de origem da qual deseja realizar a operação: ")
-
             conta_destino = input("\nInforme o codigo da conta destino para qual deseja realizar a operação: ")
 
-            consultar_conta_origem = conta_origem in Contas['cod']
-            consultar_conta_destino = conta_destino in Contas['cod']
+            origem = buscar_conta(conta_origem)
+            destino = buscar_conta(conta_destino)
 
-            if (consultar_conta_origem == True) and (consultar_conta_destino == True):
-
-              pos = Contas['cod'].index(conta_origem)
-              pos_conta_destino = Contas['cod'].index(conta_destino)
+            if origem and destino:
               transferencia = input ("\nInforme o valor da transferencia: ")
               transferencia = float(transferencia)
-              valor = Contas['saldo'][pos]
-              valor_conta_destino = Contas['saldo'][pos_conta_destino]
-
-              if valor >= transferencia:
-                valor = valor - transferencia
-                valor_conta_destino = valor_conta_destino + transferencia
-                Contas['saldo'][pos] = valor
-                Contas['saldo'][pos_conta_destino] = valor_conta_destino
-
-                Trans['cod'].append(conta_origem +'_'+ conta_destino)
-                Trans['origem'].append(conta_origem)
-                Trans['destino'].append(conta_destino)
-                Trans['valor'].append(transferencia)
-            
+              if origem.saldo >= transferencia:
+                origem.sacar(transferencia)
+                destino.depositar(transferencia)
+                print("Transferencia efetuada com sucesso")
               else:
                 print("Saldo insuficiente!!")
-            
             else :
                 print("Conta nao existe!!")
-
 
 print ("Finalizando...")
