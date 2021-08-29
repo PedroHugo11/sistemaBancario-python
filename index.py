@@ -102,8 +102,14 @@ while play_in_proccess:
             if conta:
               saque = input ("\nInforme o valor do deposito: ")
               saque = float(saque)
-              conta.sacar(saque)
-              print("Saque efetuado com sucesso")
+
+              if conta and isinstance(conta, ContaPoupanca):
+                saldo = conta.saldo - saque
+                if saldo < 0:
+                  print("Conta Poupança não pode ser negativa")
+                else:
+                  conta.sacar(saque)
+                  print("Saque efetuado com sucesso")
             else:
               print("Conta nao existe!!")
 
