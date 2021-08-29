@@ -14,7 +14,7 @@ class ContaBonus(Conta):
 
     def depositoEspecial(self,valor):
         self.saldo += valor
-        bonus = int(valor/200)
+        bonus = int(valor/150)
         self.bonus += bonus
-        print ("Você acabou de receber mais ", bonus, " pontos")
+        print ("Você acabou de receber mais ", bonus, " ponto(s)")
         print ("O seu total de pontos é: ", self.bonus)
