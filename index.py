@@ -57,7 +57,12 @@ while play_in_proccess:
             if conta:
               print ("Essa conta já existe, tente novamente!")
             else:
+              deposito = input ("\nInforme um saldo inicial: ")
+              deposito = float(deposito)
+              
               Contas.append(ContaPoupanca(cod))
+              conta_poupanca = buscar_conta(cod)
+              conta_poupanca.depositar(deposito)
           elif tipo == '3':
             if conta:
               print ("Essa conta já existe, tente novamente!")
