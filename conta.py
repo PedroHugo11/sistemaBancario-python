@@ -5,7 +5,7 @@ class Conta():
 
     def sacar(self, valor):
         if(self.saldo >= valor):
-            self.saldo -= valor
+            self.saldo -= valor    
         else:
             print("Saldo insuficiente!!")
 
