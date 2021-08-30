@@ -107,7 +107,7 @@ while play_in_proccess:
             conta = buscar_conta(consultar)
 
             if conta:
-              saque = input ("\nInforme o valor do deposito: ")
+              saque = input ("\nInforme o valor do saque: ")
               saque = float(saque)
               conta.sacar(saque)
               print("Saque efetuado com sucesso")
