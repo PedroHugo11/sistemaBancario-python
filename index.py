@@ -2,6 +2,7 @@
 # Sistema Bancário - Python 
 
 from conta import Conta
+from bonus import ContaBonus
 
 Contas = []
 play_in_proccess = True
@@ -39,12 +40,22 @@ while play_in_proccess:
 
         ## 1 - Inserir nova conta
         if (menuCliente == '1') :
+
+          print("1 - Conta corrente")
+          print("2 - Conta Bonus")
+          tipo = input ("Informe o tipo da conta: ") 
           cod = input ("Informe o numero da conta: ") 
           conta = buscar_conta(cod)
-          if conta:
-            print ("Essa conta já existe, tente novamente!")
-          else:
-            Contas.append(Conta(cod))
+          if tipo == '1':
+            if conta:
+              print ("Essa conta já existe, tente novamente!")
+            else:
+              Contas.append(Conta(cod))
+          elif tipo == '2':
+            if conta:
+              print ("Essa conta já existe, tente novamente!")
+            else:
+              Contas.append(ContaBonus(cod))
 
         ## 2 - Consultar saldo
         elif (menuCliente == '2') :
@@ -107,8 +118,10 @@ while play_in_proccess:
               transferencia = float(transferencia)
               if origem.saldo >= transferencia:
                 origem.sacar(transferencia)
-                destino.depositar(transferencia)
-                print("Transferencia efetuada com sucesso")
+                if isinstance(destino, ContaBonus):
+                  destino.depositoEspecial(transferencia)
+                else: 
+                  destino.depositar(transferencia)
               else:
                 print("Saldo insuficiente!!")
             else :
