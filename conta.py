@@ -4,10 +4,7 @@ class Conta():
         self.saldo = 0     
 
     def sacar(self, valor):
-        if(self.saldo >= valor):
-            self.saldo -= valor
-        else:
-            print("Saldo insuficiente!!")
+        self.saldo -= valor    
 
     def depositar(self,valor):
         self.saldo += valor

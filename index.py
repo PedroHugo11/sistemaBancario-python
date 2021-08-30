@@ -114,8 +114,22 @@ while play_in_proccess:
             if conta:
               saque = input ("\nInforme o valor do saque: ")
               saque = float(saque)
-              conta.sacar(saque)
-              print("Saque efetuado com sucesso")
+
+              if isinstance(conta, ContaPoupanca):
+                saldo = conta.saldo - saque
+                if saldo < 0 :
+                  print ('Essa conta não pode ter saldo negativo')
+                else:
+                  conta.sacar(saque)
+                  print("Saque efetuado com sucesso")
+
+              if (isinstance(conta, ContaBonus) or isinstance(conta, Conta)):
+                saldo = conta.saldo - saque
+                if saldo < -1000 :
+                  print ('Essa conta não pode ter saldo menor que -1000')
+                else:
+                  conta.sacar(saque)
+                  print("Saque efetuado com sucesso")
             else:
               print("Conta nao existe!!")
 
